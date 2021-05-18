@@ -14,7 +14,7 @@ public abstract class Piece {
         this.pieceAlliance=pieceAlliance;
         this.piecePos=piecePos;
     }
-    public abstract List<Move> legalMoves(final Board board);
+    public abstract Collection<Move> legalMoves(final Board board);
     public Alliance getPieceAlliance(){
         return pieceAlliance;
     }

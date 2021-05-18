@@ -19,12 +19,16 @@ public class Knight extends Piece {
 
     @Override
     public List<Move> legalMoves(Board board) {         //returns list of all valid moves
-        int moveDestCoor;
+        int moveDestCoor;                               //int representing destination of move on board
         final List<Move> legalMoves = new ArrayList<>();  //temp list for valid moves
 
         for (final int move : POSS_MOVE_COORDS) {         //for each lop going through possible moves, adding to coor of knight obj
-            moveDestCoor = this.piecePos + move;
 
+            moveDestCoor = this.piecePos + move;
+            if(firstColumnExclusion(this.piecePos,moveDestCoor)||secondColumnExclusion(this.piecePos,moveDestCoor)||
+            seventhColumnExclusion(this.piecePos,moveDestCoor)||eigthColumnExclusion(this.piecePos,moveDestCoor)){
+                continue;
+            }
             if (BoardUtils.isValidTileCoor(moveDestCoor)) {
                 final Tile moveDestTile = board.getTile(moveDestCoor);
 
@@ -43,10 +47,19 @@ public class Knight extends Piece {
         }
         return ImmutableList.copyOf(legalMoves);
     }
-    private static boolean firstColumnExclusin(final int cPos, final int candidatePos){
-        BoardUtils.FIRST_COLUMN(cPosition) && ((candidatePos==-17) || (candidatePos == -10) ||
+    private static boolean firstColumnExclusion(final int cPos, final int candidatePos){        //these moves dont work and must be excluded
+        return BoardUtils.FIRST_COLUMN(cPos) && ((candidatePos==-17) || (candidatePos == -10) ||
         candidatePos==6 || candidatePos==15);
     }
-
+    private static boolean secondColumnExclusion(final int cPos, final int candidatePos){
+        return BoardUtils.SECOND_COLUMN(cPos)&&((candidatePos == -10)|| candidatePos ==6);
+    }
+    private static boolean seventhColumnExclusion(final int cPos, final int candidatePos){
+        return BoardUtils.SEVENTH_COLUMN(cPos) && ((candidatePos == -6)|| candidatePos== 10);
+    }
+    private static boolean eigthColumnExclusion(final int cPos, final int candidatePos){
+        return BoardUtils.EIGTH_COLUMN(cPos) && ((candidatePos == -15) || candidatePos== -6 || candidatePos == 10
+                || candidatePos == 17);
+    }
 
 }
