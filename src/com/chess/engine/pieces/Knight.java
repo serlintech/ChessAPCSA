@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chess.engine.board.Move.*;
+
 public class Knight extends Piece {
     private final int[] POSS_MOVE_COORDS = {-17, -15, -10, 6, 6, 10, 15, 17};        //these vals added to move as possible knight move coords
 
@@ -18,7 +20,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<Move> legalMoves(Board board) {         //returns list of all valid moves
+    public List<Move> legalMoves(final Board board) {         //returns list of all valid moves
         int moveDestCoor;                               //int representing destination of move on board
         final List<Move> legalMoves = new ArrayList<>();  //temp list for valid moves
 
@@ -33,13 +35,13 @@ public class Knight extends Piece {
                 final Tile moveDestTile = board.getTile(moveDestCoor);
 
                 if (!moveDestTile.isTileOccupied()) {
-                    legalMoves.add(new Move());
+                    legalMoves.add(new MajorMove(board,this,moveDestCoor));
 
                 } else {
                     final Piece pieceAtDest = moveDestTile.getPiece();
                     final Alliance pieceAlliance = pieceAtDest.getPieceAlliance();
                     if (this.pieceAlliance != pieceAlliance) {
-                        legalMoves.add(new Move());
+                        legalMoves.add(new OffensiveMove(board,this,moveDestCoor,pieceAtDest));
                     }
                 }
             }

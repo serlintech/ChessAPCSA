@@ -6,6 +6,7 @@ import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 import com.chess.engine.board.Tile;
+import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,26 +21,26 @@ public class Bishop extends Piece{
 	}
 	
 	@Override 
-	public Collection<Move> calculateLegalMoves(Board board){
+	public Collection<Move> legalMoves(Board board){
 		final List<Move> legalMoves = new ArrayList<>();
 		for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES){
 			
-			int candidateDestinationCoordinate = this.piecePos;
+			int moveDestCoor = this.piecePos;
 			
-			while(BoardUtils.isValidTileCoor(candidateDestinationCoordinate)){
-				 if(isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) || isEightColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset)) {
+			while(BoardUtils.isValidTileCoor(moveDestCoor)){
+				 if(isFirstColumnExclusion(moveDestCoor, candidateCoordinateOffset) || isEightColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset)) {
 					 break;
 				 }
-				candidateDestinationCoordinate += candidateCoordinateOffset;
-				if (BoardUtils.isValidTileCoor(candidateDestinationCoordinate)){
+				moveDestCoor += candidateCoordinateOffset;
+				if (BoardUtils.isValidTileCoor(moveDestCoor)){
 					 final Tile moveDestTile = board.getTile(moveDestCoor);
 		                if (!moveDestTile.isTileOccupied()) {
-		                    legalMoves.add(new Move());
+		                    legalMoves.add(new Move.MajorMove(board, this, moveDestCoor));
 		                } else {
 		                    final Piece pieceAtDest = moveDestTile.getPiece();
 		                    final Alliance pieceAlliance = pieceAtDest.getPieceAlliance();
 		                    if (this.pieceAlliance != pieceAlliance) {
-		                        legalMoves.add(new Move());
+		                        legalMoves.add(new Move.OffensiveMove(board,this,moveDestCoor, pieceAtDest));
 		                        }
 		                    break;
 		                    }		                
