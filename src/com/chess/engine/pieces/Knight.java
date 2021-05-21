@@ -50,7 +50,7 @@ public class Knight extends Piece {
         return ImmutableList.copyOf(legalMoves);
     }
     private static boolean firstColumnExclusion(final int cPos, final int candidatePos){        //these moves dont work and must be excluded
-        return BoardUtils.FIRST_COLUMN(cPos) && ((candidatePos==-17) || (candidatePos == -10) ||
+        return (BoardUtils.FIRST_COLUMN(cPos))&& ((candidatePos==-17) || (candidatePos == -10) ||
         candidatePos==6 || candidatePos==15);
     }
     private static boolean secondColumnExclusion(final int cPos, final int candidatePos){
