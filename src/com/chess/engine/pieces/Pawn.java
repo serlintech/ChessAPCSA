@@ -2,6 +2,7 @@ package com.chess.engine.pieces;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
 
 import java.util.ArrayList;
@@ -22,8 +23,17 @@ public class Pawn extends Piece{
 
         final List<Move> legalMoves = new ArrayList<>();
         for(final int currentCandidate : moveCandidates){
-            int candidateDest = this.piecePos + currentCandidate;
+            int candidateDest = this.piecePos + (this.getPieceAlliance().getDirection() * currentCandidate);
+
+            if(!BoardUtils.isValidTileCoor(candidateDest)){
+                continue;
+            }
+            if(currentCandidate == 8 && !board.getTile(candidateDest).isTileOccupied()){
+                //have to make pawn move type
+                legalMoves.add(new Move.MajorMove(board, this, candidateDest));
+            }
         }
+        return legalMoves;
     }
 
 }

@@ -3,17 +3,17 @@ package com.chess.engine;
 public enum Alliance {
     WHITE {
         @Override
-        int getDirection() {
-            return -2;
+        public int getDirection() {
+            return -1;
         }
     },
     BLACK {
         @Override
-        int getDirection() {
+        public int getDirection() {
             return 1;
         }
     };
 
 
-    abstract int getDirection();
+    public abstract int getDirection();
 }
