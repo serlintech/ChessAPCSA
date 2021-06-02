@@ -16,7 +16,7 @@ public class Pawn extends Piece{
 
 
     public Pawn(Alliance pieceAlliance, int piecePos) {
-        super(pieceAlliance, piecePos);
+        super(PieceType.PAWN, pieceAlliance, piecePos);
     }
 
     @Override

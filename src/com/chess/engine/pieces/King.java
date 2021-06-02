@@ -18,7 +18,7 @@ public class King extends Piece{
     private final static int[] CANDIDATES = {-9,-8,-7,-1,1,7,8,9};
 
     public King( Alliance pieceAlliance, int piecePos){
-        super( pieceAlliance,piecePos);
+        super( PieceType.KING,pieceAlliance,piecePos);
     }
 
     @Override

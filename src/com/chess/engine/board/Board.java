@@ -3,6 +3,8 @@ package com.chess.engine.board;
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.Bishop;
 import com.chess.engine.pieces.*;
+import com.chess.engine.player.bPlayer;
+import com.chess.engine.player.wPlayer;
 import com.google.common.collect.ImmutableList;
 
 import java.util.*;
@@ -12,7 +14,8 @@ public class Board {
     private final List<Tile> gameBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-
+    private final wPlayer whitePlayer;
+    private final bPlayer blackPlayer;
 
     private Board(Builder builder) {
         this.gameBoard= createGameBoard(builder);
@@ -21,6 +24,8 @@ public class Board {
 
         final Collection<Move> whiteLegalMoves = calcLegalMoves(this.whitePieces);
         final Collection<Move> blackLegalMoves = calcLegalMoves(this.blackPieces);
+        this.whitePlayer=new wPlayer(this, whiteLegalMoves, blackLegalMoves);
+        this.blackPlayer= new bPlayer(this, whiteLegalMoves, blackLegalMoves);
     }
     @Override
     public String toString(){
@@ -47,6 +52,7 @@ public class Board {
         return ImmutableList.copyOf(legalMoves);
     }
 
+
     private Collection<Piece> calcActivePieces(List<Tile> gameBoard, Alliance alliance) {
 
         final List<Piece> activePieces = new ArrayList<>();
@@ -60,6 +66,15 @@ public class Board {
         }
         return activePieces;
     }
+    public Collection<Piece> getBlackPieces(){
+        return this.blackPieces;
+
+    }
+    public Collection<Piece> getWhitePieces(){
+        return this.whitePieces;
+
+    }
+
 
     private static List<Tile> createGameBoard(final Builder builder){
         final Tile[] tiles = new Tile[BoardUtils.TILES];
@@ -133,6 +148,7 @@ public class Board {
             this.nextMoveGen = nextMoveGen;
             return this;
         }
+
         public Board build(){
             return new Board(this);
 

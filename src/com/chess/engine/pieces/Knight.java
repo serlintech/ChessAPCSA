@@ -16,7 +16,7 @@ public class Knight extends Piece {
     private final int[] POSS_MOVE_COORDS = {-17, -15, -10, 6, 6, 10, 15, 17};        //these vals added to move as possible knight move coords
 
     public Knight(final Alliance pieceAlliance, final int piecePos) {
-        super(pieceAlliance, piecePos);
+        super(PieceType.KNIGHT,pieceAlliance, piecePos);
     }
 
     @Override
