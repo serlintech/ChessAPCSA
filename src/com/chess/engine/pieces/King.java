@@ -17,8 +17,8 @@ import static com.chess.engine.board.Move.*;
 public class King extends Piece{
     private final static int[] CANDIDATES = {-9,-8,-7,-1,1,7,8,9};
 
-    King(int piecePos, Alliance pieceAlliance){
-        super(piecePos, pieceAlliance);
+    public King( Alliance pieceAlliance, int piecePos){
+        super( pieceAlliance,piecePos);
     }
 
     @Override
@@ -51,12 +51,16 @@ public class King extends Piece{
 
         return ImmutableList.copyOf(legalMoves);
     }
+    @Override
+    public String toString(){
+        return PieceType.KING.toString();
+    }
     private static boolean isFirstColumnExclusion(final int cPos, final int candidatePos){        //these moves dont work and must be excluded
-        return (BoardUtils.FIRST_COLUMN(cPos))&& ((candidatePos==-9) || (candidatePos == -1) ||
+        return (BoardUtils.FIRST_COLUMN[cPos])&& ((candidatePos==-9) || (candidatePos == -1) ||
                 candidatePos==7 );
     }
     private static boolean isEigthColumnExclusion(final int cPos, final int candidatePos){
-        return BoardUtils.EIGTH_COLUMN(cPos)&&((candidatePos == -7)|| candidatePos ==1 || candidatePos==9);
+        return BoardUtils.EIGTH_COLUMN[cPos]&&((candidatePos == -7)|| candidatePos ==1 || candidatePos==9);
     }
 
 

@@ -15,8 +15,8 @@ import static com.chess.engine.board.Move.*;
 public class Knight extends Piece {
     private final int[] POSS_MOVE_COORDS = {-17, -15, -10, 6, 6, 10, 15, 17};        //these vals added to move as possible knight move coords
 
-    Knight(final int piecePos, final Alliance pieceAlliance) {
-        super(piecePos, pieceAlliance);
+    public Knight(final Alliance pieceAlliance, final int piecePos) {
+        super(pieceAlliance, piecePos);
     }
 
     @Override
@@ -49,18 +49,22 @@ public class Knight extends Piece {
         }
         return ImmutableList.copyOf(legalMoves);
     }
+    @Override
+    public String toString(){
+        return PieceType.KNIGHT.toString();
+    }
     private static boolean firstColumnExclusion(final int cPos, final int candidatePos){        //these moves dont work and must be excluded
-        return (BoardUtils.FIRST_COLUMN(cPos))&& ((candidatePos==-17) || (candidatePos == -10) ||
+        return (BoardUtils.FIRST_COLUMN[cPos])&& ((candidatePos==-17) || (candidatePos == -10) ||
         candidatePos==6 || candidatePos==15);
     }
     private static boolean secondColumnExclusion(final int cPos, final int candidatePos){
-        return BoardUtils.SECOND_COLUMN(cPos)&&((candidatePos == -10)|| candidatePos ==6);
+        return BoardUtils.SECOND_COLUMN[cPos]&&((candidatePos == -10)|| candidatePos ==6);
     }
     private static boolean seventhColumnExclusion(final int cPos, final int candidatePos){
-        return BoardUtils.SEVENTH_COLUMN(cPos) && ((candidatePos == -6)|| candidatePos== 10);
+        return BoardUtils.SEVENTH_COLUMN[cPos] && ((candidatePos == -6)|| candidatePos== 10);
     }
     private static boolean eigthColumnExclusion(final int cPos, final int candidatePos){
-        return BoardUtils.EIGTH_COLUMN(cPos) && ((candidatePos == -15) || candidatePos== -6 || candidatePos == 10
+        return BoardUtils.EIGTH_COLUMN[cPos] && ((candidatePos == -15) || candidatePos== -6 || candidatePos == 10
                 || candidatePos == 17);
     }
 

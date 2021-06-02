@@ -13,8 +13,8 @@ import java.util.List;
 public class Queen extends Piece{
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9,-8, -7,-1,1, 7,8, 9};
 
-    Queen(int piecePos, Alliance pieceAlliance) {
-        super(piecePos, pieceAlliance);
+    public Queen( Alliance pieceAlliance,int piecePos) {
+        super(pieceAlliance, piecePos);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Queen extends Piece{
             int moveDestCoor = this.piecePos;
 
             while(BoardUtils.isValidTileCoor(moveDestCoor)){
-                if(isFirstColumnExclusion(moveDestCoor, candidateCoordinateOffset) || isEightColumnExclusion(candidateDestinationCoordinate,candidateCoordinateOffset)) {
+                if(isFirstColumnExclusion(moveDestCoor, candidateCoordinateOffset) || isEightColumnExclusion(moveDestCoor,candidateCoordinateOffset)) {
                     break;
                 }
                 moveDestCoor += candidateCoordinateOffset;
@@ -46,13 +46,16 @@ public class Queen extends Piece{
         }
         return ImmutableList.copyOf(legalMoves);
     }
-
+    @Override
+    public String toString(){
+        return PieceType.QUEEN.toString();
+    }
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.FIRST_COLUMN(currentPosition) && (candidateOffset==-1 ||candidateOffset == -9 || candidateOffset == 7);
+        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset==-1 ||candidateOffset == -9 || candidateOffset == 7);
     }
 
     private static boolean isEightColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.EIGTH_COLUMN(currentPosition) && (candidateOffset == -7 || candidateOffset==1 || candidateOffset == 9);
+        return BoardUtils.EIGTH_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset==1 || candidateOffset == 9);
     }
 
 }
