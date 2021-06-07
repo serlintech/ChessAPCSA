@@ -17,7 +17,7 @@ import static com.chess.engine.board.Move.*;
 public class King extends Piece{
     private final static int[] CANDIDATES = {-9,-8,-7,-1,1,7,8,9};
 
-    public King( Alliance pieceAlliance, int piecePos){
+    public King( final Alliance pieceAlliance, final int piecePos){
         super( PieceType.KING,pieceAlliance,piecePos);
     }
 
@@ -28,7 +28,7 @@ public class King extends Piece{
         for(final int currentCandidate : CANDIDATES){
 
             final int moveDestCoor = this.piecePos + currentCandidate;
-            if(isEigthColumnExclusion(this.piecePos,currentCandidate) || isEigthColumnExclusion(this.piecePos,currentCandidate)){
+            if(isFirstColumnExclusion(this.piecePos,currentCandidate) || isEigthColumnExclusion(this.piecePos,currentCandidate)){
                 continue;
             }
             if(BoardUtils.isValidTileCoor(moveDestCoor)){

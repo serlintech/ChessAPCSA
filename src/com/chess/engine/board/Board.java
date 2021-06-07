@@ -3,6 +3,7 @@ package com.chess.engine.board;
 import com.chess.engine.Alliance;
 import com.chess.engine.pieces.Bishop;
 import com.chess.engine.pieces.*;
+import com.chess.engine.player.Player;
 import com.chess.engine.player.bPlayer;
 import com.chess.engine.player.wPlayer;
 import com.google.common.collect.ImmutableList;
@@ -16,6 +17,14 @@ public class Board {
     private final Collection<Piece> blackPieces;
     private final wPlayer whitePlayer;
     private final bPlayer blackPlayer;
+    private final Player currentPlayer;
+
+    public Player getWhitePlayer(){
+        return this.whitePlayer;
+    }
+    public Player getBlackPlayer(){
+        return this.blackPlayer;
+    }
 
     private Board(Builder builder) {
         this.gameBoard= createGameBoard(builder);
@@ -26,6 +35,7 @@ public class Board {
         final Collection<Move> blackLegalMoves = calcLegalMoves(this.blackPieces);
         this.whitePlayer=new wPlayer(this, whiteLegalMoves, blackLegalMoves);
         this.blackPlayer= new bPlayer(this, whiteLegalMoves, blackLegalMoves);
+        this.currentPlayer=builder.nextMoveGen.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
     @Override
     public String toString(){
@@ -41,7 +51,9 @@ public class Board {
     }
 
 
-
+    public Player getCurrentPlayer(){
+        return currentPlayer;
+    }
 
     private Collection<Move> calcLegalMoves(Collection<Piece>pieces) {
         final List<Move> legalMoves =new ArrayList<>();
