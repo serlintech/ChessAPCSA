@@ -19,6 +19,13 @@ public class Knight extends Piece {
         super(PieceType.KNIGHT,pieceAlliance, piecePos);
     }
 
+
+    @Override
+    public Knight movePiece(Move move) {
+        return new Knight(move.getMovePiece().getPieceAlliance(), move.getDestCoor());
+    }
+
+
     @Override
     public List<Move> legalMoves(final Board board) {         //returns list of all valid moves
         int moveDestCoor;                               //int representing destination of move on board

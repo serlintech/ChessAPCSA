@@ -19,8 +19,13 @@ public class Bishop extends Piece{
 	public Bishop(Alliance pieceAll, int piecePos){
 		super(PieceType.BISHOP, pieceAll,piecePos);
 	}
-	
-	@Override 
+
+	@Override
+	public Bishop movePiece(Move move) {
+		return new Bishop(move.getMovePiece().getPieceAlliance(), move.getDestCoor());
+	}
+
+	@Override
 	public Collection<Move> legalMoves(Board board){
 		final List<Move> legalMoves = new ArrayList<>();
 		for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES){

@@ -32,8 +32,7 @@ public abstract class Player {
             }
         }return ImmutableList.copyOf(attackMoves);
     }
-    public abstract Alliance getAlliance();
-    public abstract Player getOpponent();
+
     public boolean isLegalMove(final Move move){
         return this.legalMoves.contains(move);
     }
@@ -87,4 +86,7 @@ public abstract class Player {
         throw new RuntimeException("Should not reach here, Not a valid board state.");
     }
     public abstract Collection<Piece> getActivePieces();
+    public abstract Alliance getAlliance();
+    public abstract Player getOpponent();
+    public abstract Collection<Move> calcKingCastles(Collection<Move> playerLegals, Collection<Move> oppLegals);
 }

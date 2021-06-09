@@ -18,7 +18,10 @@ public class Pawn extends Piece{
     public Pawn(Alliance pieceAlliance, int piecePos) {
         super(PieceType.PAWN, pieceAlliance, piecePos);
     }
-
+    @Override
+    public Pawn movePiece(Move move) {
+        return new Pawn(move.getMovePiece().getPieceAlliance(), move.getDestCoor());
+    }
     @Override
     public Collection<Move> legalMoves(Board board) {
 

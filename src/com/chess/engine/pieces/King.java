@@ -21,6 +21,11 @@ public class King extends Piece{
         super( PieceType.KING,pieceAlliance,piecePos);
     }
 
+
+    @Override
+    public King movePiece(Move move) {
+        return new King(move.getMovePiece().getPieceAlliance(), move.getDestCoor());
+    }
     @Override
     public Collection<Move> legalMoves(Board board) {
         final List<Move> legalMoves = new ArrayList<>();

@@ -25,6 +25,11 @@ public class wPlayer extends Player{
     }
 
     @Override
+    public Collection<Move> calcKingCastles(Collection<Move> playerLegals, Collection<Move> oppLegals) {
+        return null;
+    }
+
+    @Override
     public Collection<Piece> getActivePieces() {
         return this.board.getWhitePieces();
     }

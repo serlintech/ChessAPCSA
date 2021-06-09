@@ -20,6 +20,10 @@ public class Rook extends Piece{
     }
 
     @Override
+    public Rook movePiece(Move move) {
+        return new Rook(move.getMovePiece().getPieceAlliance(), move.getDestCoor());
+    }
+    @Override
     public Collection<Move> legalMoves(Board board){
         final List<Move> legalMoves = new ArrayList<>();
         for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES){
