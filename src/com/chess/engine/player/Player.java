@@ -6,12 +6,14 @@ import com.chess.engine.board.Move;
 import com.chess.engine.pieces.King;
 import com.chess.engine.pieces.Piece;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public abstract class Player {
+
     protected final Board board;
     protected final King pKing;
     protected final Collection<Move> legalMoves;
@@ -21,10 +23,10 @@ public abstract class Player {
            final Collection<Move>oppMoves){
         this.board=board;
         this.pKing= establishKing();
-        this.legalMoves=legalMoves;
+        this.legalMoves=ImmutableList.copyOf(Iterables.concat(legalMoves,calcKingCastles(legalMoves,oppMoves)));
         this.isInCheck = !Player.calcAttacksOnTile(this.pKing.getPiecePos(), oppMoves).isEmpty();
     }
-    public static Collection<Move> calcAttacksOnTile(int piecePos, Collection<Move> oppMoves){
+    protected static Collection<Move> calcAttacksOnTile(int piecePos, Collection<Move> oppMoves){
         final List<Move> attackMoves = new ArrayList<>();
         for(final Move move: oppMoves){
             if(piecePos == move.getDestCoor()){
@@ -65,25 +67,26 @@ public abstract class Player {
     }
 
     public MoveTransition makeMove(final Move move){
-        if(!isLegalMove(move)){
-            return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
+        if(!this.legalMoves.contains(move)){
+            return new MoveTransition(this.board,this.board, move, MoveStatus.ILLEGAL_MOVE);
         }
         final Board transBoard = move.execute();
+        /*
         final Collection<Move> kingAttacks = Player.calcAttacksOnTile(transBoard.getCurrentPlayer().getOpponent().getPlayerKing().getPiecePos(),
                 transBoard.getCurrentPlayer().getLegalMoves());
         if(!kingAttacks.isEmpty()){
             return new MoveTransition(this.board,move,MoveStatus.ERROR_IN_CHECK);
         }
         return new MoveTransition(transBoard, move, MoveStatus.DONE);
+
+         */
+        return transBoard.getCurrentPlayer().getOpponent().isInCheck() ?
+                new MoveTransition(this.board,this.board,move,MoveStatus.ERROR_IN_CHECK) :
+                new MoveTransition(this.board,transBoard,move,MoveStatus.DONE);
     }
 
     private King establishKing() {
-         for(final Piece piece: getActivePieces()){
-             if(piece.getPieceType().isKing()){
-                 return (King) piece;
-             }
-         }////if no king, invalid board setup, throws error
-        throw new RuntimeException("Should not reach here, Not a valid board state.");
+         return(King)getActivePieces().stream().filter(piece -> piece.getPieceType() == Piece.PieceType.KING).findAny().orElseThrow(RuntimeException::new);
     }
     public abstract Collection<Piece> getActivePieces();
     public abstract Alliance getAlliance();

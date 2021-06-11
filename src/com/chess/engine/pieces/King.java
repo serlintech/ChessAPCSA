@@ -18,7 +18,12 @@ public class King extends Piece{
     private final static int[] CANDIDATES = {-9,-8,-7,-1,1,7,8,9};
 
     public King( final Alliance pieceAlliance, final int piecePos){
-        super( PieceType.KING,pieceAlliance,piecePos);
+
+        super( PieceType.KING,pieceAlliance,piecePos,true);
+    }
+    public King( final Alliance pieceAlliance, final int piecePos, final boolean isFirstMove){
+
+        super( PieceType.KING,pieceAlliance,piecePos,isFirstMove);
     }
 
 
@@ -65,7 +70,7 @@ public class King extends Piece{
                 candidatePos==7 );
     }
     private static boolean isEigthColumnExclusion(final int cPos, final int candidatePos){
-        return BoardUtils.EIGTH_COLUMN[cPos]&&((candidatePos == -7)|| candidatePos ==1 || candidatePos==9);
+        return BoardUtils.EIGHTH_COLUMN[cPos]&&((candidatePos == -7)|| candidatePos ==1 || candidatePos==9);
     }
 
 

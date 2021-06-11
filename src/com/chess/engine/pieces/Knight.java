@@ -13,12 +13,14 @@ import java.util.List;
 import static com.chess.engine.board.Move.*;
 
 public class Knight extends Piece {
-    private final int[] POSS_MOVE_COORDS = {-17, -15, -10, 6, 6, 10, 15, 17};        //these vals added to move as possible knight move coords
+    private final int[] POSS_MOVE_COORDS = {-17, -15, -10, -6, 6, 10, 15, 17};        //these vals added to move as possible knight move coords
 
     public Knight(final Alliance pieceAlliance, final int piecePos) {
-        super(PieceType.KNIGHT,pieceAlliance, piecePos);
+        super(PieceType.KNIGHT,pieceAlliance, piecePos,true);
     }
-
+    public Knight(final Alliance pieceAlliance, final int piecePos, final Boolean isFirstMove) {
+        super(PieceType.KNIGHT,pieceAlliance, piecePos,isFirstMove);
+    }
 
     @Override
     public Knight movePiece(Move move) {
@@ -34,8 +36,10 @@ public class Knight extends Piece {
         for (final int move : POSS_MOVE_COORDS) {         //for each lop going through possible moves, adding to coor of knight obj
 
             moveDestCoor = this.piecePos + move;
-            if(firstColumnExclusion(this.piecePos,moveDestCoor)||secondColumnExclusion(this.piecePos,moveDestCoor)||
-            seventhColumnExclusion(this.piecePos,moveDestCoor)||eigthColumnExclusion(this.piecePos,moveDestCoor)){
+            if(firstColumnExclusion(this.piecePos,moveDestCoor)||
+                    secondColumnExclusion(this.piecePos,moveDestCoor)||
+                    seventhColumnExclusion(this.piecePos,moveDestCoor)||
+                    eigthColumnExclusion(this.piecePos,moveDestCoor)){
                 continue;
             }
             if (BoardUtils.isValidTileCoor(moveDestCoor)) {
@@ -71,7 +75,7 @@ public class Knight extends Piece {
         return BoardUtils.SEVENTH_COLUMN[cPos] && ((candidatePos == -6)|| candidatePos== 10);
     }
     private static boolean eigthColumnExclusion(final int cPos, final int candidatePos){
-        return BoardUtils.EIGTH_COLUMN[cPos] && ((candidatePos == -15) || candidatePos== -6 || candidatePos == 10
+        return BoardUtils.EIGHTH_COLUMN[cPos] && ((candidatePos == -15) || candidatePos== -6 || candidatePos == 10
                 || candidatePos == 17);
     }
 

@@ -3,6 +3,7 @@ import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
 import com.chess.engine.board.Move;
+import com.chess.engine.board.Move.MajorMove;
 import com.chess.engine.board.Tile;
 import com.google.common.collect.ImmutableList;
 
@@ -13,8 +14,11 @@ import java.util.List;
 public class Queen extends Piece{
     private final static int[] CANDIDATE_MOVE_VECTOR_COORDINATES = {-9,-8, -7,-1,1, 7,8, 9};
 
-    public Queen( Alliance pieceAlliance,int piecePos) {
-        super(PieceType.QUEEN, pieceAlliance, piecePos);
+    public Queen( final Alliance pieceAlliance,final int piecePos) {
+        super(PieceType.QUEEN, pieceAlliance, piecePos,true);
+    }
+    public Queen( final Alliance pieceAlliance,final int piecePos, final boolean isFirstMove) {
+        super(PieceType.QUEEN, pieceAlliance, piecePos,isFirstMove);
     }
     @Override
     public Queen movePiece(Move move) {
@@ -35,7 +39,7 @@ public class Queen extends Piece{
                 if (BoardUtils.isValidTileCoor(moveDestCoor)){
                     final Tile moveDestTile = board.getTile(moveDestCoor);
                     if (!moveDestTile.isTileOccupied()) {
-                        legalMoves.add(new Move.MajorMove(board, this, moveDestCoor));
+                        legalMoves.add(new MajorMove(board, this, moveDestCoor));
                     } else {
                         final Piece pieceAtDest = moveDestTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDest.getPieceAlliance();
@@ -58,7 +62,7 @@ public class Queen extends Piece{
     }
 
     private static boolean isEightColumnExclusion(final int currentPosition, final int candidateOffset) {
-        return BoardUtils.EIGTH_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset==1 || candidateOffset == 9);
+        return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset==1 || candidateOffset == 9);
     }
 
 }
